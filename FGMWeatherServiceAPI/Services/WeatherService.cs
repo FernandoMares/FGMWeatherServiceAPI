@@ -52,7 +52,7 @@ namespace FGMWeatherServiceAPI.Services
             var weatherData = await _weatherCollection
                 .Find(w => w.Latitude == latitude && w.Longitude == longitude)
                 .FirstOrDefaultAsync();
-
+            // If weatherData exists in DB, retrieve the info to avoid making a second call to the API
             if (weatherData == null)
             {
                 var response = await _httpClient.GetStringAsync(
