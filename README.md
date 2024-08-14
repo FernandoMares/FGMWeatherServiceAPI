@@ -71,7 +71,8 @@ Program.cs
 
 4. **Build and run the application:**
   ```bash
-    dotnet restore
+    dotnet build
+    dotnet run
   ```
 
 ## Configuration
