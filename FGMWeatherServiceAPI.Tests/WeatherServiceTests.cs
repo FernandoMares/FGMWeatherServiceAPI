@@ -12,6 +12,9 @@ using FGMWeatherServiceAPI.Configurations;
 
 public class WeatherServiceTests
 {
+    /// <summary>
+    /// Tests that GetWeatherByLocationAsync returns the correct WeatherData when it is found in the database.
+    /// </summary>
     [Fact]
     public async Task GetWeatherByLocationAsync_ReturnsWeatherData_WhenDataIsFound()
     {
@@ -48,6 +51,7 @@ public class WeatherServiceTests
         mockMongoClient.Setup(client => client.GetDatabase(It.IsAny<string>(), null))
                        .Returns(mockDatabase.Object);
 
+        // Create a MongoDbSettings instance for the WeatherService
         var mongoDbSettings = new MongoDbSettings
         {
             ConnectionString = "mongodb://localhost:27017",
@@ -55,13 +59,15 @@ public class WeatherServiceTests
             CollectionName = "WeatherData"
         };
 
-        // Create the WeatherService instance
+        // Create an instance of WeatherService with mocked dependencies
         var weatherService = new WeatherService(mockHttpClient.Object, mockMongoClient.Object, Options.Create(mongoDbSettings));
 
         // Act
+        // Call the method under test
         var result = await weatherService.GetWeatherByLocationAsync(40.7128, -74.0060);
 
         // Assert
+        // Verify that the result is not null and contains the expected temperature
         Assert.NotNull(result);
         Assert.Equal(22.0, result.Temperature);
     }
