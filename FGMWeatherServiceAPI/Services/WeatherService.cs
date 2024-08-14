@@ -24,6 +24,7 @@ namespace FGMWeatherServiceAPI.Services
         public WeatherService(HttpClient httpClient, IMongoClient mongoClient, IOptions<MongoDbSettings> mongoDbSettings)
         {
             _httpClient = httpClient;
+            _httpClient.Timeout = TimeSpan.FromSeconds(10); // Set the timeout to 10 seconds
             var database = mongoClient.GetDatabase(mongoDbSettings.Value.DatabaseName);
             _weatherCollection = database.GetCollection<WeatherData>(mongoDbSettings.Value.CollectionName);
         }
